@@ -142,6 +142,14 @@ p { margin: 0; max-width: 65ch; }
 .badge.snow { background: var(--flow-soft); color: var(--flow); }
 .badge.spiral { background: var(--zoom-soft); color: var(--zoom); }
 
+/* finite vs infinite */
+.vs { display: grid; grid-template-columns: minmax(5.5em, auto) 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.vs > div { padding: 10px 14px; border-top: 1px solid var(--line); min-width: 0; }
+.vs .h { font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); border-top: none; background: var(--bg); }
+.vs .rl { font-weight: 700; }
+.vs .inf { background: var(--kit-soft); }
+.rules.five { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+
 /* bottleneck sim */
 .sim { display: flex; flex-direction: column; gap: 10px; }
 .stage { display: grid; grid-template-columns: 10em 1fr 5.5em; grid-template-areas: "nm tr bt"; gap: 10px; align-items: center; }
@@ -280,6 +288,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
         <a href="#inversion">Inversion</a>
         <a href="#environment">Environment</a>
         <a href="#signal">Signal vs noise</a>
+        <a href="#infinite">Finite vs infinite</a>
         <a href="#run">Run your own problem</a>
         <a href="#game">Sort it</a>
       </div>
@@ -470,6 +479,37 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--flow); outline-
     </div>
   </section>
 
+  <section class="panel kit" id="infinite" aria-labelledby="fi-h">
+    <div class="explain-head">
+      <span class="eyebrow">Which game are you playing?</span>
+      <h2 id="fi-h">Finite vs infinite games</h2>
+      <p>A <b>finite game</b> has a finish line and a winner. An <b>infinite game</b> has no end. You can't win it. The goal is to keep playing, and keep the game going for others.</p>
+    </div>
+    <div class="test">Quick test: is there a <b>finish line</b>? If not, you're in an infinite game.</div>
+    <div class="vs" role="table" aria-label="Finite and infinite games compared">
+      <div class="h" role="columnheader"></div><div class="h" role="columnheader">Finite game</div><div class="h inf" role="columnheader">Infinite game</div>
+      <div class="rl" role="rowheader">Players</div><div role="cell">Known</div><div class="inf" role="cell">Come and go</div>
+      <div class="rl" role="rowheader">Rules</div><div role="cell">Fixed and agreed</div><div class="inf" role="cell">Change over time</div>
+      <div class="rl" role="rowheader">End</div><div role="cell">Clear finish line</div><div class="inf" role="cell">None</div>
+      <div class="rl" role="rowheader">Goal</div><div role="cell">Win</div><div class="inf" role="cell">Keep playing</div>
+    </div>
+    <p class="note">Business, health, parenting and careers are infinite games. Trouble starts when you play them with a finite mindset: chasing a win in a game that never ends.</p>
+    <div class="chips" id="fi-chips" role="group" aria-label="Finite and infinite examples"></div>
+    <div class="compare">
+      <div class="side dim"><span class="tag">Finite mindset</span><span class="arrow">Win this round</span><p id="fi-a"></p></div>
+      <div class="side lit"><span class="tag">Infinite mindset</span><span class="arrow">Stay in the game</span><p id="fi-b"></p></div>
+    </div>
+    <h3>Five habits of an infinite player</h3>
+    <div class="rules five">
+      <div class="rule"><strong>Just cause</strong><span>A reason to exist bigger than any single win.</span></div>
+      <div class="rule"><strong>Trusting teams</strong><span>People feel safe to say "I made a mistake" or "I need help".</span></div>
+      <div class="rule"><strong>Worthy rival</strong><span>A competitor you learn from, not one you just try to beat.</span></div>
+      <div class="rule"><strong>Flexibility</strong><span>Willing to change the whole plan to serve the cause.</span></div>
+      <div class="rule"><strong>Courage to lead</strong><span>Choosing the long game when the short game pays more today.</span></div>
+    </div>
+    <p class="note">Idea from James Carse's <i>Finite and Infinite Games</i>, made popular by Simon Sinek's <i>The Infinite Game</i>. Ties in with thinking in decades, lead measures and second-order effects.</p>
+  </section>
+
   <section class="panel kit" id="run" aria-labelledby="run-h">
     <div class="explain-head">
       <span class="eyebrow">Use the whole kit</span>
@@ -626,6 +666,14 @@ pair("sn-chips", "sn", [
   { name: "Social media", a: "One post gets lots of likes.", b: "Enquiries mention the same type of post again and again." }
 ]);
 
+pair("fi-chips", "fi", [
+  { name: "Running a clinic", a: "Beat the clinic down the road this quarter. Hit the number at any cost.", b: "Build a practice that's still great in 20 years. Learn from the clinic down the road." },
+  { name: "Team", a: "Squeeze the most billable hours out of everyone this year.", b: "Grow clinicians so they stay, get better, and bring others with them." },
+  { name: "Parenting", a: "Win tonight's bedtime argument.", b: "Raise a kid who can manage their own sleep as an adult." },
+  { name: "Health", a: "Lose 10 kg for the wedding.", b: "Still moving well and lifting at 80." },
+  { name: "Career", a: "Get the title, then coast.", b: "Keep learning and stay useful as the field changes." }
+]);
+
 // map
 const quads = [
   { name: "Design", sub: "Big picture + cause", what: "Start with the goal. Shape the causes so the result is close to guaranteed.", ex: "You want steady referrals, so you build strong referrer relationships before you need them.", good: "Long-term results.", watch: "Slow to see payoff." },
@@ -719,7 +767,8 @@ const runSteps = [
   { tool: "Second-order effects", cls: "kit-t", q: "If you fix it, and then what?", hint: "What might the fix cause a month from now?" },
   { tool: "Inversion", cls: "kit-t", q: "What would guarantee it gets worse?", hint: "List a few. Are any of them already happening?" },
   { tool: "Environment", cls: "kit-t", q: "What setup change makes the right thing easy?", hint: "Change the space, not the effort." },
-  { tool: "Signal vs noise", cls: "kit-t", q: "Is this a trend or one bad day?", hint: "More than once? More than one source?" }
+  { tool: "Signal vs noise", cls: "kit-t", q: "Is this a trend or one bad day?", hint: "More than once? More than one source?" },
+  { tool: "Finite vs infinite", cls: "kit-t", q: "Is this a game you win, or one you keep playing?", hint: "If it never ends, what choice keeps you in the game for the long run?" }
 ];
 const KEY = "zoom-flow-run";
 let run = { problem: "", answers: runSteps.map(() => ""), at: 0 };
@@ -806,7 +855,7 @@ $("copy-notes").addEventListener("click", () => {
 drawRun();
 
 // game
-const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise" };
+const labels = { top: "Top down", bottom: "Bottom up", up: "Upstream", down: "Downstream", in: "Input", alg: "Algorithm", bn: "The bottleneck", notbn: "Not the bottleneck", snow: "Snowball", spiral: "Spiral", lead: "Lead", lag: "Lag", first: "First-order", second: "Second-order", fwd: "Forward", inv: "Inverted", will: "Willpower", env: "Environment", sig: "Signal", noise: "Noise", fin: "Finite mindset", inf: "Infinite mindset" };
 const kinds = {
   zoom: { ask: "Top down or bottom up?", opts: ["top", "bottom"], cls: "zoom-t" },
   flow: { ask: "Upstream or downstream?", opts: ["up", "down"], cls: "flow-t" },
@@ -817,7 +866,8 @@ const kinds = {
   so: { ask: "First-order or second-order effect?", opts: ["first", "second"], cls: "kit-t" },
   inv: { ask: "Forward or inverted thinking?", opts: ["fwd", "inv"], cls: "kit-t" },
   env: { ask: "Willpower or environment?", opts: ["will", "env"], cls: "kit-t" },
-  sn: { ask: "Signal or noise?", opts: ["sig", "noise"], cls: "kit-t" }
+  sn: { ask: "Signal or noise?", opts: ["sig", "noise"], cls: "kit-t" },
+  fi: { ask: "Finite or infinite mindset?", opts: ["fin", "inf"], cls: "kit-t" }
 };
 const pool = [
   { t: "zoom", s: "A coach shows the team the whole game plan, then drills each play.", a: "top", why: "Goal first, then the parts." },
@@ -844,7 +894,10 @@ const pool = [
   { t: "env", s: "Leaving gym clothes next to the bed the night before.", a: "env", why: "The setup does the work, not effort." },
   { t: "env", s: "Telling yourself you'll be more disciplined about notes this week.", a: "will", why: "Same setup, just trying harder." },
   { t: "sn", s: "One parent leaves a grumpy review after a session ran late.", a: "noise", why: "One data point. Notice it, don't overhaul everything." },
-  { t: "sn", s: "Three different referrers mention wait times in the same month.", a: "sig", why: "Repeated, from more than one source. Act on it." }
+  { t: "sn", s: "Three different referrers mention wait times in the same month.", a: "sig", why: "Repeated, from more than one source. Act on it." },
+  { t: "fi", s: "Cutting clinician supervision to hit this quarter's revenue target.", a: "fin", why: "Wins the quarter, weakens the team for years." },
+  { t: "fi", s: "Studying how a rival clinic runs intake so you can improve your own.", a: "inf", why: "The rival is a teacher, not just an enemy." },
+  { t: "fi", s: "Funding rules change, so you rebuild your service model to keep serving the same families.", a: "inf", why: "Flexible on the plan, fixed on the cause." }
 ];
 const ROUND = 10;
 let game = [], idx = 0, right = 0, results = [];
